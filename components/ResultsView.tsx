@@ -52,7 +52,7 @@ ${result.colors.join(', ')}
 CREATIVE OUTPUTS
 ----------------
 ${result.creativeOutputs.map((output, i) => `
-[${i + 1}] ${output.title}
+[Variation ${i + 1}]
 ${output.content}
 `).join('\n')}
     `;
@@ -167,8 +167,8 @@ ${output.content}
             <div className="grid grid-cols-1 gap-6">
             {result.creativeOutputs.map((item, idx) => (
                 <div key={idx} className={`p-6 rounded-2xl border transition-all hover:shadow-xl relative group ${cardClass}`}>
-                <div className="flex justify-between items-start mb-4">
-                    <h4 className={`text-xl font-bold font-serif ${headingClass}`}>{item.title}</h4>
+                <div className="flex justify-between items-center mb-4">
+                    <span className="text-xs uppercase tracking-widest font-semibold opacity-50">Variation {idx + 1}</span>
                     <button
                         onClick={() => handleCopy(item.content, idx)}
                         className={`p-2 rounded-lg transition-all opacity-0 group-hover:opacity-100 ${theme === 'light' ? 'text-slate-400 hover:text-indigo-600 hover:bg-indigo-50' : 'text-slate-500 hover:text-indigo-400 hover:bg-slate-700'}`}

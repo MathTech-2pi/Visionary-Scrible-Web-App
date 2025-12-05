@@ -5,7 +5,7 @@ export enum CreativeStyle {
   Caption = 'Social Media Caption',
 }
 
-export type VariationCount = 3 | 5 | 10;
+export type VariationCount = number;
 
 export interface AnalysisResult {
   tags: string[];
@@ -15,7 +15,6 @@ export interface AnalysisResult {
 }
 
 export interface CreativeOutput {
-  title: string;
   content: string;
 }
 

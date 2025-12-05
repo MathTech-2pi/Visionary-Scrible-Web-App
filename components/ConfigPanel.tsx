@@ -1,6 +1,6 @@
 import React from 'react';
 import { CreativeStyle, VariationCount } from '../types';
-import { Sparkles, Hash, MessageSquarePlus } from 'lucide-react';
+import { Sparkles, Hash, MessageSquarePlus, PenTool } from 'lucide-react';
 
 interface ConfigPanelProps {
   style: CreativeStyle;
@@ -35,6 +35,17 @@ export const ConfigPanel: React.FC<ConfigPanelProps> = ({
   const subTextClass = theme === 'light' ? 'text-slate-500' : 'text-slate-400';
   const labelClass = theme === 'light' ? 'text-slate-700' : 'text-slate-300';
   const inputBgClass = theme === 'light' ? 'bg-white border-slate-200' : 'bg-slate-800/50 border-slate-600 text-white';
+
+  const handleCustomCountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = parseInt(e.target.value);
+    if (!isNaN(val)) {
+      // Clamp between 1 and 20 to prevent excessive usage
+      const clamped = Math.max(1, Math.min(20, val));
+      onCountChange(clamped);
+    }
+  };
+
+  const isPreset = [3, 5, 10].includes(variationCount);
 
   return (
     <div className={`w-full max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 p-8 rounded-3xl shadow-2xl border backdrop-blur-xl animate-fade-in ${glassClass}`}>
@@ -88,12 +99,12 @@ export const ConfigPanel: React.FC<ConfigPanelProps> = ({
               <Hash size={16} className="mr-2 text-indigo-500" />
               Number of Variations
             </label>
-            <div className="flex gap-4">
+            <div className="flex flex-wrap gap-3 mb-2">
               {[3, 5, 10].map((num) => (
                 <button
                   key={num}
-                  onClick={() => onCountChange(num as VariationCount)}
-                  className={`flex-1 py-2 rounded-xl text-sm font-medium border transition-all ${
+                  onClick={() => onCountChange(num)}
+                  className={`flex-1 min-w-[60px] py-2 rounded-xl text-sm font-medium border transition-all ${
                     variationCount === num
                        ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 ring-1 ring-indigo-500'
                       : `${theme === 'light' ? 'border-slate-200 hover:bg-slate-50' : 'border-slate-600 hover:bg-slate-800'} ${subTextClass}`
@@ -102,7 +113,22 @@ export const ConfigPanel: React.FC<ConfigPanelProps> = ({
                   {num}
                 </button>
               ))}
+              <div className="relative flex-[2] min-w-[120px]">
+                 <input
+                    type="number"
+                    min="1"
+                    max="20"
+                    placeholder="Custom"
+                    value={isPreset ? '' : variationCount}
+                    onChange={handleCustomCountChange}
+                    className={`w-full py-2 px-3 pl-10 rounded-xl text-sm font-medium border transition-all outline-none ${inputBgClass} focus:ring-2 focus:ring-indigo-500`}
+                 />
+                 <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs font-bold flex items-center gap-1">
+                   <PenTool size={12} />
+                 </span>
+              </div>
             </div>
+            <p className={`text-xs ${subTextClass} opacity-80`}>Select a preset or type a custom amount (1-20).</p>
           </div>
 
           {/* Custom Instruction Input */}

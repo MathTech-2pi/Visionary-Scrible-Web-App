@@ -30,10 +30,9 @@ const responseSchema: Schema = {
       items: {
         type: Type.OBJECT,
         properties: {
-          title: { type: Type.STRING, description: "A short, catchy title for this specific variation." },
           content: { type: Type.STRING, description: "The generated creative text content. MUST include hex codes for colors mentioned." },
         },
-        required: ["title", "content"],
+        required: ["content"],
       },
     },
   },
